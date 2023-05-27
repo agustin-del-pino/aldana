@@ -30,11 +30,24 @@ type defaultLexer[T any] struct {
 func (l *defaultLexer[T]) Tokenize(c lexer.Cursor) ([]T, error) {
 	tks := []T{}
 
+	var (
+		hasIg ranges.ByteRange
+		ig    func(c lexer.Cursor, r ranges.ByteRange)
+	)
+
+	if l.ops.Ignore == nil {
+		hasIg = func(b byte) bool {
+			return false
+		}
+	} else {
+		hasIg, ig = l.ops.Ignore()
+	}
+
 	c.Next()
 
 	for c.HasChar() {
-		if r, i := l.ops.Ignore(); r(c.GetChar()) {
-			i(c, r)
+		if hasIg(c.GetChar()) {
+			ig(c, hasIg)
 			continue
 		}
 		var ux bool

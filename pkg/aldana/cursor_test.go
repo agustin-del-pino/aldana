@@ -145,6 +145,7 @@ func TestCursor_HasToken_with_reaching(t *testing.T) {
 
 		// act
 		cur.Next()
+		cur.Next()
 		hc := cur.HasChar()
 
 		// assert
@@ -156,7 +157,7 @@ func TestCursor_HasToken_with_reaching(t *testing.T) {
 		cur := setUpCursor([]byte("qwertyuiopasdfghjklñzxcvbnm,"))
 
 		// act
-		for i := 0; i < 29; i++ {
+		for i := 0; i < 30; i++ {
 			cur.Next()
 		}
 
@@ -171,7 +172,7 @@ func TestCursor_HasToken_with_reaching(t *testing.T) {
 		cur := setUpCursor([]byte("qwertyuiopasdfghjklñzxcvbnm,"))
 
 		// act
-		for i := 0; i < 50; i++{
+		for i := 0; i < 50; i++ {
 			cur.Next()
 		}
 

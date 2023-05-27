@@ -1,6 +1,8 @@
 package aldana
 
-import "github.com/agustin-del-pino/aldana/pkg/aldana/lexer"
+import (
+	"github.com/agustin-del-pino/aldana/pkg/aldana/lexer"
+)
 
 // defaultCursor implements lexer.Cursor.
 type defaultCursor struct {
@@ -9,10 +11,11 @@ type defaultCursor struct {
 	column  int
 	line    int
 	char    byte
+	hasChar bool
 }
 
 func (c *defaultCursor) HasChar() bool {
-	return c.column < c.length
+	return c.hasChar
 }
 
 func (c *defaultCursor) GetChar() byte {
@@ -27,6 +30,8 @@ func (c *defaultCursor) Next() {
 	if c.column < c.length {
 		c.char = c.content[c.column]
 		c.column += 1
+	} else {
+		c.hasChar = false
 	}
 }
 
@@ -49,5 +54,6 @@ func NewCursor(c []byte) lexer.Cursor {
 	return &defaultCursor{
 		content: c,
 		length:  len(c),
+		hasChar: len(c) != 0,
 	}
 }
